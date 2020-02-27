@@ -1,3 +1,15 @@
+galaxy_info:
+  author: Gerben Geijteman
+  description: Ubuntu UFW manager
+  company: Hyperized.net
+  license: MIT
+  min_ansible_version: 2.5
+  platforms:
+    - name: Ubuntu
+      versions:
+        - bionic
+  galaxy_tags:
+    - ufw
 dependencies:
   - role: hyperized.package
     package_name: ufw
