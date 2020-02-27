@@ -1,0 +1,8 @@
+---
+ufw_package_state: present
+ufw_firewall_state: enabled
+ufw_rules: []
+ufw_applications: []
+ufw_log: yes
+ufw_inbound_default: deny
+ufw_outbound_default: allow

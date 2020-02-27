@@ -1,0 +1,49 @@
+---
+- name: ensure app profiles
+  template:
+    src: app.profile
+    dest: "/etc/ufw/applications.d/{{ item.name | lower }}"
+  loop: "{{ ufw_applications }}"
+
+- name: ensure inbound ufw app rules
+  ufw:
+    rule: allow
+    direction: in
+    app: "{{ source.0.name }}"
+    src: "{{ source.1 }}"
+  loop: "{{ lookup('subelements', ufw_applications, 'sources', {'skip_missing': True}) }}"
+  loop_control:
+    loop_var: source
+
+- name: ensure outbound ufw app rules
+  ufw:
+    rule: allow
+    direction: out
+    app: "{{ target.0.name }}"
+    to: "{{ target.1 }}"
+  loop: "{{ lookup('subelements', ufw_applications, 'targets', {'skip_missing': True}) }}"
+  loop_control:
+    loop_var: target
+
+- name: ensure ufw rules
+  ufw:
+    rule: "{{ item.rule }}"
+    proto: "{{ item.proto | default(omit) }}"
+    app: "{{ item.app | default(omit) }}"
+    src: "{{ item.src | default(omit) }}"
+  loop: "{{ ufw_rules }}"
+
+- name: ensure default inbound
+  ufw:
+    direction: incoming
+    policy: "{{ ufw_inbound_default }}"
+
+- name: ensure default outbound
+  ufw:
+    direction: outgoing
+    policy: "{{ ufw_outbound_default }}"
+
+- name: ensure firewall state and logging
+  ufw:
+    log: "{{ ufw_log }}"
+    state: "{{ ufw_firewall_state }}"
