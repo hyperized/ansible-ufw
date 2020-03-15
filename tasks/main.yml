@@ -11,7 +11,7 @@
     direction: in
     app: "{{ source.0.name }}"
     src: "{{ source.1 }}"
-  loop: "{{ lookup('subelements', ufw_applications, 'sources', {'skip_missing': True}) }}"
+  loop: "{{ query('subelements', ufw_applications, 'sources', {'skip_missing': True}) }}"
   loop_control:
     loop_var: source
 
@@ -21,7 +21,7 @@
     direction: out
     app: "{{ target.0.name }}"
     to: "{{ target.1 }}"
-  loop: "{{ lookup('subelements', ufw_applications, 'targets', {'skip_missing': True}) }}"
+  loop: "{{ query('subelements', ufw_applications, 'targets', {'skip_missing': True}) }}"
   loop_control:
     loop_var: target
 
