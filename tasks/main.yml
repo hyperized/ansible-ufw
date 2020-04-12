@@ -44,6 +44,7 @@
     policy: "{{ ufw_outbound_default }}"
 
 - name: ensure default routed
+  ufw:
     direction: routed
     policy: "{{ ufw_routed_default }}"
 
@@ -54,6 +55,6 @@
 
 - name: ensure firewall logging level
   ufw:
-    logging: "{{ ufw_logging}} "
+    logging: "{{ ufw_logging }}"
   when:
     - ufw_log
